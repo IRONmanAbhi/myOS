@@ -14,3 +14,12 @@ mykernel.bin : linker.ld $(objects)
 
 install : mykernel.bin
 	sudo cp $< /boot/mykernel.bin
+
+mykernel.iso : mykernel.bin
+	mkdir iso
+	mkdir iso/boot
+	mkdir iso/boot/grub
+	cp $< iso/boot
+	cp grub.cfg iso/boot/grub
+	grub-mkrescue -o $@ iso
+	rm -rf iso
